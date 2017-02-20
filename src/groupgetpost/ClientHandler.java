@@ -46,9 +46,13 @@ public class ClientHandler implements Runnable {
             
             File diary = new File("Diary.txt");
             diary.createNewFile();
+            FileWriter fw = new FileWriter("Diary.txt");
             BufferedWriter writer = null;
+            writer = new BufferedWriter(new FileWriter(diary, true));
+            
             
             if (httpMethod.equals("GET")) {
+                writer.write("hello world");
                 System.out.println("Get method processed");
                 String httpQueryString = tokenizer.nextToken();
                 StringBuilder responseBuffer = new StringBuilder();
@@ -62,8 +66,9 @@ public class ClientHandler implements Runnable {
                 System.out.println("POST method processed");
                 String httpQueryString = tokenizer.nextToken();
                 
-                writer = new BufferedWriter(new FileWriter(diary, true));
-                writer.write("h");
+                
+                writer.write("hello world");
+                writer.close();
                 
                 StringBuilder responseBuffer = new StringBuilder();
                 responseBuffer

@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  *
@@ -18,6 +19,9 @@ import java.net.Socket;
  */
 public class HTTPClient {
 
+    String userText = null;
+    int option = 0;
+    
     public HTTPClient() {
         System.out.println("HTTP Client Started");
         try {
@@ -30,8 +34,19 @@ public class HTTPClient {
                      new BufferedReader(new 
                          InputStreamReader(
                              connection.getInputStream()))) {
-                sendPost(out);
-                sendGet(out);
+                
+                Scanner reader = new Scanner(System.in);
+                System.out.println("Please select an option.\n1 to write a new passage to your diary or 2 to display the contents of your diary.");
+                option = reader.nextInt();
+                if (option == 1){
+                    System.out.println("Entry:");
+                    userText = reader.nextLine();
+                    sendPost(out);}
+                
+                else if (option == 2){
+                    sendGet(out);}
+                
+                
                 System.out.println(getResponse(in));
             }
         } catch (IOException ex) {
