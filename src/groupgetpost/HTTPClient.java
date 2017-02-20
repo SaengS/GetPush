@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package groupgetpost;
 
 import java.io.BufferedReader;
@@ -15,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Lazi
+ * @author Group5
  */
 public class HTTPClient {
 
@@ -38,23 +33,23 @@ public class HTTPClient {
                 
                 Scanner reader = new Scanner(System.in);
                 System.out.println("Please select an option.\n1 to write a new passage to your diary or 2 to display the contents of your diary.");
-                optionEntry = reader.next();
+                optionEntry = reader.nextLine();
                 option = Integer.parseInt(optionEntry);
-                if (option == 1){
-                    System.out.println("Entry:");
-                    userText = reader.next();
-                    System.out.println(userText);
-                    sendPost(out);
-                    System.out.println(getResponse(in));}
                 
-                else if (option == 2){
-                    sendGet(out);
-                    System.out.println("Diary Entries:");
-                    System.out.println(getResponse(in));}
-                
-                else {
-                    System.out.println("That selection is invalid. Please selection option 1 or option 2.");
-                    option = reader.nextInt();}
+                    if (option == 1){
+                        System.out.println("Entry:");
+                        userText = reader.nextLine();
+                        sendPost(out);
+                        System.out.println(getResponse(in));}
+
+                    else if (option == 2){
+                        sendGet(out);
+                        System.out.println("Diary Entries:");
+                        System.out.println(getResponse(in));}
+
+                    else {
+                        System.out.println("That selection is invalid. Please selection option 1 or option 2.");
+                        option = reader.nextInt();}
                     
                 
             }
