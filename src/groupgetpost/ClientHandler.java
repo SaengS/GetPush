@@ -41,6 +41,8 @@ public class ClientHandler implements Runnable {
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));) {
             String headerLine = in.readLine();
+            String headerLine2 = in.readLine();
+            String userText = in.readLine();
             StringTokenizer tokenizer = 
                 new StringTokenizer(headerLine);
             String httpMethod = tokenizer.nextToken();
@@ -51,10 +53,10 @@ public class ClientHandler implements Runnable {
             writer = new BufferedWriter(new FileWriter(diary, true));
             String diaryContent = null;
             
+            
             if (httpMethod.equals("GET")) {
                 diaryContent = new Scanner(diary).useDelimiter("\\Z").next();
                 System.out.println("Get method processed");
-                String httpQueryString = tokenizer.nextToken();
                 StringBuilder responseBuffer = new StringBuilder();
                 responseBuffer
                 .append(diaryContent);
@@ -62,13 +64,14 @@ public class ClientHandler implements Runnable {
             
             else if (httpMethod.equals("POST")){
                 System.out.println("POST method processed");
-                String httpQueryString = tokenizer.nextToken();
-                writer.write("hello world");
+                
+                writer.write(userText + "\n");
+                System.out.print(userText);
                 writer.close();
                 
                 StringBuilder responseBuffer = new StringBuilder();
                 responseBuffer
-                .append("Post Successful!");
+                    .append("Entry Posted");
                 sendResponse(socket, 200, responseBuffer.toString());}
             
             else {

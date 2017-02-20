@@ -19,7 +19,8 @@ import java.util.Scanner;
  */
 public class HTTPClient {
 
-    String userText = null;
+    static String userText = null;
+    String optionEntry = null;
     int option = 0;
     
     public HTTPClient() {
@@ -37,17 +38,25 @@ public class HTTPClient {
                 
                 Scanner reader = new Scanner(System.in);
                 System.out.println("Please select an option.\n1 to write a new passage to your diary or 2 to display the contents of your diary.");
-                option = reader.nextInt();
+                optionEntry = reader.next();
+                option = Integer.parseInt(optionEntry);
                 if (option == 1){
                     System.out.println("Entry:");
-                    userText = reader.nextLine();
-                    sendPost(out);}
+                    userText = reader.next();
+                    System.out.println(userText);
+                    sendPost(out);
+                    System.out.println(getResponse(in));}
                 
                 else if (option == 2){
-                    sendGet(out);}
+                    sendGet(out);
+                    System.out.println("Diary Entries:");
+                    System.out.println(getResponse(in));}
                 
+                else {
+                    System.out.println("That selection is invalid. Please selection option 1 or option 2.");
+                    option = reader.nextInt();}
+                    
                 
-                System.out.println(getResponse(in));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -58,6 +67,7 @@ public class HTTPClient {
         try {
             out.write("GET /default\r\n".getBytes());
             out.write("User-Agent: Mozilla/5.0\r\n".getBytes());
+            out.write("\n".getBytes());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -67,10 +77,13 @@ public class HTTPClient {
         try {
             out.write("POST /default\r\n".getBytes());
             out.write("User-Agent: Mozilla/5.0\r\n".getBytes());
+            out.write((userText + "\n").getBytes());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        
     }
+   
     
     private String getResponse(BufferedReader in) {
         try {
