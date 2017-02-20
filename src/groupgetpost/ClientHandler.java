@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -46,35 +47,28 @@ public class ClientHandler implements Runnable {
             
             File diary = new File("Diary.txt");
             diary.createNewFile();
-            FileWriter fw = new FileWriter("Diary.txt");
             BufferedWriter writer = null;
             writer = new BufferedWriter(new FileWriter(diary, true));
-            
+            String diaryContent = null;
             
             if (httpMethod.equals("GET")) {
-                writer.write("hello world");
+                diaryContent = new Scanner(diary).useDelimiter("\\Z").next();
                 System.out.println("Get method processed");
                 String httpQueryString = tokenizer.nextToken();
                 StringBuilder responseBuffer = new StringBuilder();
                 responseBuffer
-                .append("<html><h1>WebServer Home Page.... </h1><br>")
-                .append("<b>Welcome to my web server!</b><BR>")
-                .append("</html>");
+                .append(diaryContent);
                 sendResponse(socket, 200, responseBuffer.toString());}  
             
             else if (httpMethod.equals("POST")){
                 System.out.println("POST method processed");
                 String httpQueryString = tokenizer.nextToken();
-                
-                
                 writer.write("hello world");
                 writer.close();
                 
                 StringBuilder responseBuffer = new StringBuilder();
                 responseBuffer
-                .append("<html><h1>WebServer Home Page.... </h1><br>")
-                .append("<b>Welcome to my web server!</b><BR>")
-                .append("</html>");
+                .append("Post Successful!");
                 sendResponse(socket, 200, responseBuffer.toString());}
             
             else {
